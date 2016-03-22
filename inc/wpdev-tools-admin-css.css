@@ -1,0 +1,14 @@
+/* Dashboard Styles */
+
+#wpadminbar>#wp-toolbar>#wp-admin-bar-root-default li#wp-admin-bar-wp-logo .ab-item .ab-icon {
+    display: none;
+    visibility: hidden;
+}
+
+li#wp-admin-bar-libertyalliance-menu {
+    border-right: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+li#wp-admin-bar-libertyalliance-menu a img {
+    padding-top: 3px;
+}

@@ -1,0 +1,60 @@
+.wpdev-toolkit-wrap h2 {
+    color: #BC442F;
+    margin-bottom: 0.5rem;
+    font-size: 1.6rem;
+}
+
+.wpdev-toolkit-wrap table.form-table {
+    background: #fff;
+    padding: 2rem;
+    display: block;
+    border-radius: 1rem;
+    width: auto;
+}
+
+label.wpdev-toolkit-description {
+    font-size: 0.8rem;
+}
+
+.wpdev-toolkit-wrap table.form-table th {
+    font-weight: bold;
+    color: #263E4C;
+    font-size: 1rem;
+}
+
+.wpdev-toolkit-wrap textarea, .wpdev-toolkit-wrap input {
+    border-radius: 6px;
+}
+
+.wpdev-toolkit-wrap input[type=text] {
+    width: 100%;
+}
+
+label.wpdev-toolkit-description.wpdev-toolkit-description-checkbox {
+    display: block;
+    margin-top: 0.5rem;
+}
+
+.wpdev-toolkit-wrap input#submit {
+    background: #BC442F;
+    text-shadow: none;
+    border: none;
+    box-shadow: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+}
+
+.wpdev-toolkit-wrap input#submit:hover {
+    background: #263E4C;
+}
+
+h2.wpdev-toolkit-logo {
+    border-bottom: 1px solid rgba(38, 62, 76, 0.2);
+    padding-bottom: 1rem !important;
+    margin-bottom: 1rem !important;
+    display: block;
+}
