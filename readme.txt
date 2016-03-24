@@ -26,6 +26,9 @@ Offers a ton of site enhancements and options.
 
 == Changelog ==
 
+= 2.1
+* Bug fixes.
+
 = 2.0
 * Final updates.
 * Options panel added to backend.
