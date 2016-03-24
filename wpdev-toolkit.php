@@ -3,7 +3,7 @@
 Plugin Name: WP Developers Toolkit
 Plugin URI: http://wpdevelopers.com
 Description: Load WordPress faster with special, optimized settings and improve the backend of WordPress.
-Version: 2.0
+Version: 2.1
 Author: Tyler Johnson
 Author URI: http://tylerjohnsondesign.com/
 Copyright: Tyler Johnson
@@ -241,14 +241,6 @@ class WPDevToolkit {
 			'wpdev-toolkit-admin', // page
 			'wpdev_toolkit_setting_section_backend' // section
 		);
-        
-        add_settings_field(
-			'limit_post_queries_6', // id
-			'Limit Post Queries', // title
-			array( $this, 'limit_post_queries_6_callback' ), // callback
-			'wpdev-toolkit-admin', // page
-			'wpdev_toolkit_setting_section_backend' // section
-		);
 
 		add_settings_field(
 			'restrict_important_access_6', // id
@@ -352,10 +344,6 @@ class WPDevToolkit {
         if ( isset( $input['remove_dashboard_widgets_6'] ) ) {
 			$sanitary_values['remove_dashboard_widgets_6'] = $input['remove_dashboard_widgets_6'];
 		}
-        
-        if ( isset( $input['limit_post_queries_6'] ) ) {
-			$sanitary_values['limit_post_queries_6'] = $input['limit_post_queries_6'];
-		}
 
 		if ( isset( $input['restrict_important_access_6'] ) ) {
 			$sanitary_values['restrict_important_access_6'] = $input['restrict_important_access_6'];
@@ -448,13 +436,6 @@ class WPDevToolkit {
 			( isset( $this->wpdev_toolkit_options['remove_dashboard_widgets_6'] ) && $this->wpdev_toolkit_options['remove_dashboard_widgets_6'] === 'remove_dashboard_widgets_6' ) ? 'checked' : ''
 		);
 	}
-    
-    public function limit_post_queries_6_callback() {
-		printf(
-			'<input type="checkbox" name="wpdev_toolkit_option_name[limit_post_queries_6]" id="limit_post_queries_6" value="limit_post_queries_6" %s><label class="wpdev-toolkit-description wpdev-toolkit-description-checkbox" for="limit_post_queries_6">Limit unneccesary post queries on the backend for faster post loading.</label>',
-			( isset( $this->wpdev_toolkit_options['limit_post_queries_6'] ) && $this->wpdev_toolkit_options['limit_post_queries_6'] === 'limit_post_queries_6' ) ? 'checked' : ''
-		);
-	}
 
 	public function restrict_important_access_6_callback() {
 		printf(
@@ -539,7 +520,6 @@ $googlejs       = $tools['load_jquery_from_google_3'];
 $removestrings  = $tools['remove_query_strings_4'];
 $removeemoji    = $tools['remove_emoji_scripts_5'];
 $removedash     = $tools['remove_dashboard_widgets_6'];
-$limitqueries   = $tools['limit_post_queries_6'];
 $restrictaccess = $tools['restrict_important_access_6'];
 $allowaccess    = $tools['allow_access_7'];
 $enabletheme    = $tools['liberty_alliance_theme_8'];
@@ -674,29 +654,6 @@ function wpdev_tools_dashboard_setup() {
     }
 }
 add_action('wp_dashboard_setup', 'wpdev_tools_dashboard_setup');
-
-// Limit Post Fields for Faster Loading
-function wpdev_limit_post_fields( $fields, $query ) {
-    if(!empty($limitqueries)) {
-        if(!is_admin() || !$query->is_main_query() || (defined('DOING_AJAX') && DOING_AJAX) || (defined('DOING_CRON') && DOING_CRON)) {
-            return $fields;
-        }
-
-        $p = $GLOBALS['wpdb']->posts;
-        return implode( ",", array(
-            "{$p}.ID",
-            "{$p}.post_date",
-            "{$p}.post_name",
-            "{$p}.post_title",
-            "{$p}.post_status",
-            "{$p}.ping_status",
-            "{$p}.post_author",
-            "{$p}.post_password",
-            "{$p}.comment_status",
-        ));
-    }
-}
-add_filter( 'posts_fields', 'wpdev_limit_post_fields', 0, 2 );
 
 
 /**
