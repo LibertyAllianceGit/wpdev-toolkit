@@ -26,6 +26,9 @@ Offers a ton of site enhancements and options.
 
 == Changelog ==
 
+= 2.2
+* Bug fix.
+
 = 2.1
 * Bug fixes.
 
