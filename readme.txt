@@ -26,6 +26,9 @@ Offers a ton of site enhancements and options.
 
 == Changelog ==
 
+= 2.3
+* Added option to enable "New Window" checked by default while editing posts and adding links.
+
 = 2.2
 * Bug fix.
 

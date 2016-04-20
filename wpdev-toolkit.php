@@ -3,7 +3,7 @@
 Plugin Name: WP Developers Toolkit
 Plugin URI: http://wpdevelopers.com
 Description: Load WordPress faster with special, optimized settings and improve the backend of WordPress.
-Version: 2.2
+Version: 2.3
 Author: Tyler Johnson
 Author URI: http://tylerjohnsondesign.com/
 Copyright: Tyler Johnson
@@ -22,10 +22,10 @@ $wpdevtoolsUpdateChecker = new $wpdevtoolsClassName(
     'master'
 );
 
+
 /**
  * Plugin CSS
  */
-
 function wpdev_tools_plugin_files() {
         wp_enqueue_style( 'wpdev-tools-plugin-css', plugin_dir_url(__FILE__) . 'inc/wpdev-tools-plugin-css.css' );
 }
@@ -143,6 +143,14 @@ class WPDevToolkit {
 		);
         
         add_settings_field(
+			'enable_newwindow_bydefault_6', // id
+			'Enable New Window Checkbox Checked by Default', // title
+			array( $this, 'enable_newwindow_bydefault_6_callback' ), // callback
+			'wpdev-toolkit-admin', // page
+			'wpdev_toolkit_setting_section_backend' // section
+		);
+        
+        add_settings_field(
 			'remove_dashboard_widgets_6', // id
 			'Remove Dashboard Widgets', // title
 			array( $this, 'remove_dashboard_widgets_6_callback' ), // callback
@@ -249,6 +257,10 @@ class WPDevToolkit {
 			$sanitary_values['remove_emoji_scripts_5'] = $input['remove_emoji_scripts_5'];
 		}
         
+        if ( isset( $input['enable_newwindow_bydefault_6'] ) ) {
+            $sanitary_values['enable_newwindow_bydefault_6'] = $input['enable_newwindow_bydefault_6'];
+        }
+        
         if ( isset( $input['remove_dashboard_widgets_6'] ) ) {
 			$sanitary_values['remove_dashboard_widgets_6'] = $input['remove_dashboard_widgets_6'];
 		}
@@ -337,6 +349,13 @@ class WPDevToolkit {
 			( isset( $this->wpdev_toolkit_options['remove_emoji_scripts_5'] ) && $this->wpdev_toolkit_options['remove_emoji_scripts_5'] === 'remove_emoji_scripts_5' ) ? 'checked' : ''
 		);
 	}
+    
+    public function enable_newwindow_bydefault_6_callback() {
+        printf(
+            '<input type="checkbox" name="wpdev_toolkit_option_name[enable_newwindow_bydefault_6]" id="enable_newwindow_bydefault_6" value="enable_newwindow_bydefault_6" %s><label class="wpdev-toolkit-description wpdev-toolkit-description-checkbox" for="enable_newwindow_bydefault_6">Enable New Window Checkbox Checked by Default on Backend.</label>',
+            ( isset( $this->wpdev_toolkit_options['enable_newwindow_bydefault_6'] ) && $this->wpdev_toolkit_options['enable_newwindow_bydefault_6'] === 'enable_newwindow_bydefault_6' ) ? 'checked' : ''
+        );
+    }
     
     public function remove_dashboard_widgets_6_callback() {
 		printf(
@@ -427,6 +446,7 @@ $asyncjs        = $tools['load_js_via_async_2'];
 $googlejs       = $tools['load_jquery_from_google_3'];
 $removestrings  = $tools['remove_query_strings_4'];
 $removeemoji    = $tools['remove_emoji_scripts_5'];
+$enablenewwin   = $tools['enable_newwindow_bydefault_6'];
 $removedash     = $tools['remove_dashboard_widgets_6'];
 $restrictaccess = $tools['restrict_important_access_6'];
 $allowaccess    = $tools['allow_access_7'];
@@ -537,6 +557,18 @@ if(!empty($removeemoji)) {
     remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
     remove_action( 'wp_print_styles', 'print_emoji_styles' );
 }
+
+
+/**
+ * Enable New Window Checked by Default
+ */
+function wpdev_tools_newwindow_js() {
+    global $enablenewwin;
+    if(!empty($enablenewwin)) {
+        wp_enqueue_script( 'wpdev-tools-newwindow-js', plugin_dir_url( __FILE__ ) . 'inc/wpdev-tools-newwindow.js' );
+    }
+}
+add_action('admin_enqueue_scripts', 'wpdev_tools_newwindow_js', 20);
 
 
 /**
