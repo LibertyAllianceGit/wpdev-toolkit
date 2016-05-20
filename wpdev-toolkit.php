@@ -3,7 +3,7 @@
 Plugin Name: WP Developers Toolkit
 Plugin URI: http://wpdevelopers.com
 Description: Load WordPress faster with special, optimized settings and improve the backend of WordPress.
-Version: 2.3
+Version: 2.3.1
 Author: Tyler Johnson
 Author URI: http://tylerjohnsondesign.com/
 Copyright: Tyler Johnson
@@ -523,7 +523,7 @@ function wpdev_tools_modify_jquery() {
     global $googlejs;
     if(!empty($googlejs)) {
         wp_deregister_script('jquery');
-        wp_register_script('jquery', '//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js', false, '1.8.1');
+        wp_register_script('jquery', '//ajax.googleapis.com/ajax/libs/jquery/1.12.3/jquery.min.js', false, '1.12.3');
         wp_enqueue_script('jquery');
     } else {
         // Nothing.
