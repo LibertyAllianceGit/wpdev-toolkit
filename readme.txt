@@ -25,6 +25,8 @@ Offers a ton of site enhancements and options.
 == Screenshots ==
 
 == Changelog ==
+= 2.3.1
+* Update Google jQuery Version to WP 4.5 Version
 
 = 2.3
 * Added option to enable "New Window" checked by default while editing posts and adding links.
