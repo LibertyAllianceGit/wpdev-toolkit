@@ -3,7 +3,7 @@
 Plugin Name: WP Developers Toolkit
 Plugin URI: http://wpdevelopers.com
 Description: Load WordPress faster with special, optimized settings and improve the backend of WordPress.
-Version: 2.3.1
+Version: 2.3.2
 Author: Tyler Johnson
 Author URI: http://tylerjohnsondesign.com/
 Copyright: Tyler Johnson
@@ -16,6 +16,7 @@ Text Domain: wpdevrock
  */
 require 'plugin-update-checker-3.0/plugin-update-checker.php';
 $wpdevtoolsClassName = PucFactory::getLatestClassVersion('PucGitHubChecker');
+$myUpdateChecker->setAccessToken('4921ce230f2bd252dd1fafc7afeac812ddf091de');
 $wpdevtoolsUpdateChecker = new $wpdevtoolsClassName(
     'https://github.com/LibertyAllianceGit/wpdev-toolkit',
     __FILE__,
@@ -36,26 +37,26 @@ add_action('admin_enqueue_scripts', 'wpdev_tools_plugin_files', 20);
 PLUGIN OPTIONS
 --------------------*/
 
-class WPDevToolkit { 
-    private $wpdev_toolkit_options; 
-    
-    public function __construct() { 
-        add_action( 'admin_menu', array( $this, 'wpdev_toolkit_add_plugin_page' ) ); 
-        add_action( 'admin_init', array( $this, 'wpdev_toolkit_page_init' ) ); 
-    } 
-    
-    public function wpdev_toolkit_add_plugin_page() { 
+class WPDevToolkit {
+    private $wpdev_toolkit_options;
+
+    public function __construct() {
+        add_action( 'admin_menu', array( $this, 'wpdev_toolkit_add_plugin_page' ) );
+        add_action( 'admin_init', array( $this, 'wpdev_toolkit_page_init' ) );
+    }
+
+    public function wpdev_toolkit_add_plugin_page() {
         add_menu_page( 'WPDev Toolkit', // page_title
                       'WPDev Toolkit', // menu_title
                       'manage_options', // capability
                       'wpdev-toolkit', // menu_slug
                       array( $this, 'wpdev_toolkit_create_admin_page' ), // function
                       'dashicons-hammer', // icon_url
-                      100 // position 
-                     ); 
-    } 
-    
-    public function wpdev_toolkit_create_admin_page() { 
+                      100 // position
+                     );
+    }
+
+    public function wpdev_toolkit_create_admin_page() {
         $this->wpdev_toolkit_options = get_option( 'wpdev_toolkit_option_name' ); ?>
 
         <div class="wrap wpdev-toolkit-wrap">
@@ -134,14 +135,14 @@ class WPDevToolkit {
 			'wpdev-toolkit-admin', // page
 			'wpdev_toolkit_setting_section_frontend' // section
 		);
-        
+
         add_settings_section(
 			'wpdev_toolkit_setting_section_backend', // id
 			'Backend', // title
 			array( $this, 'wpdev_toolkit_section_info' ), // callback
 			'wpdev-toolkit-admin' // page
 		);
-        
+
         add_settings_field(
 			'enable_newwindow_bydefault_6', // id
 			'Enable New Window Checkbox Checked by Default', // title
@@ -149,7 +150,7 @@ class WPDevToolkit {
 			'wpdev-toolkit-admin', // page
 			'wpdev_toolkit_setting_section_backend' // section
 		);
-        
+
         add_settings_field(
 			'remove_dashboard_widgets_6', // id
 			'Remove Dashboard Widgets', // title
@@ -256,11 +257,11 @@ class WPDevToolkit {
 		if ( isset( $input['remove_emoji_scripts_5'] ) ) {
 			$sanitary_values['remove_emoji_scripts_5'] = $input['remove_emoji_scripts_5'];
 		}
-        
+
         if ( isset( $input['enable_newwindow_bydefault_6'] ) ) {
             $sanitary_values['enable_newwindow_bydefault_6'] = $input['enable_newwindow_bydefault_6'];
         }
-        
+
         if ( isset( $input['remove_dashboard_widgets_6'] ) ) {
 			$sanitary_values['remove_dashboard_widgets_6'] = $input['remove_dashboard_widgets_6'];
 		}
@@ -305,7 +306,7 @@ class WPDevToolkit {
 	}
 
 	public function wpdev_toolkit_section_info() {
-		
+
 	}
 
 	public function enqueue_css_files_0_callback() {
@@ -349,14 +350,14 @@ class WPDevToolkit {
 			( isset( $this->wpdev_toolkit_options['remove_emoji_scripts_5'] ) && $this->wpdev_toolkit_options['remove_emoji_scripts_5'] === 'remove_emoji_scripts_5' ) ? 'checked' : ''
 		);
 	}
-    
+
     public function enable_newwindow_bydefault_6_callback() {
         printf(
             '<input type="checkbox" name="wpdev_toolkit_option_name[enable_newwindow_bydefault_6]" id="enable_newwindow_bydefault_6" value="enable_newwindow_bydefault_6" %s><label class="wpdev-toolkit-description wpdev-toolkit-description-checkbox" for="enable_newwindow_bydefault_6">Enable New Window Checkbox Checked by Default on Backend.</label>',
             ( isset( $this->wpdev_toolkit_options['enable_newwindow_bydefault_6'] ) && $this->wpdev_toolkit_options['enable_newwindow_bydefault_6'] === 'enable_newwindow_bydefault_6' ) ? 'checked' : ''
         );
     }
-    
+
     public function remove_dashboard_widgets_6_callback() {
 		printf(
 			'<input type="checkbox" name="wpdev_toolkit_option_name[remove_dashboard_widgets_6]" id="remove_dashboard_widgets_6" value="remove_dashboard_widgets_6" %s><label class="wpdev-toolkit-description wpdev-toolkit-description-checkbox" for="remove_dashboard_widgets_6">Remove superfluous dashboard widgets for a faster backend.</label>',
@@ -467,7 +468,7 @@ SPEED ENHANCEMENTS
  * Speed Up JS & CSS via wp_enqueue
  */
 function wpdev_external_scripts() {
-    
+
     // Enqueue CSS
     global $enqueuecss;
     if(!empty($enqueuecss)) {
@@ -478,7 +479,7 @@ function wpdev_external_scripts() {
             wp_enqueue_style('wpdev-tools-style-' . $stylecount, $style);
         }
     }
-    
+
     // Enqueue JS
     global $enqueuejs;
     if(!empty($enqueuejs)) {
@@ -501,7 +502,7 @@ function wpdev_tools_async($tag) {
     if(!empty($asyncjs)) {
         $asyncscript = explode(",", $asyncjs);
         $asynccount = 0;
-    
+
         // Add Async Attribute
         foreach($asyncscript as $script) {
             if(true == @strpos($tag, $script)) {
@@ -635,7 +636,7 @@ function wpdev_tools_hide_items() {
     } else {
         // Nothing at all.
     }
-    
+
 }
 add_action('admin_menu', 'wpdev_tools_hide_items');
 
@@ -643,7 +644,7 @@ add_action('admin_menu', 'wpdev_tools_hide_items');
 function wpdev_tools_hide_update_notice() {
     global $restrictaccess;
     global $allowaccess;
-    
+
     if(!empty($restrictaccess)) {
         if(!empty($allowaccess)) {
             $userlist = array('tylerjohnson', 'tedslater', 'billyengler', 'wpengine');
@@ -675,7 +676,7 @@ function wpdev_tools_hide_update_adminbar() {
     global $restrictaccess;
     global $allowaccess;
     global $wp_admin_bar;
-    
+
     if(!empty($restrictaccess)) {
         if(!empty($allowaccess)) {
             $userlist = array('tylerjohnson', 'tedslater', 'billyengler', 'wpengine');
@@ -771,7 +772,7 @@ add_filter('admin_footer_text', 'wpdev_tools_custom_footer_dash_mess');
 
 // Replace Howdy
 function wpdev_tools_replace_howdy($wp_admin_bar) {
-    global $replacehowdy; 
+    global $replacehowdy;
     if(!empty($replacehowdy)) {
         $my_account = $wp_admin_bar->get_node('my-account');
         $newtitle = str_replace('Howdy', 'Welcome', $my_account->title);
@@ -788,7 +789,7 @@ add_filter('admin_bar_menu', 'wpdev_tools_replace_howdy', 25);
 function wpdev_tools_custom_dashboard_widget() {
     global $supportwidget;
     global $wp_meta_boxes;
-    
+
     if(!empty($supportwidget)) {
         wp_add_dashboard_widget('custom message widget', 'Welcome to Liberty Alliance', 'wpdev_tools_welcome_widget');
     }
@@ -801,14 +802,14 @@ function wpdev_tools_welcome_widget() {
     global $supportcontact;
     global $supportname;
     global $supportemail;
-    
+
     if(!empty($supportwidget)) {
         if(!empty($supportmessage)) {
             $message .= '<p>' . $supportmessage . '</p>';
         } else {
             $message .= '<p>Liberty Alliance is a network of web sites dedicated to advancing Life, Liberty, and the Pursuit of Happiness. Our members and strategic partners leverage the power of new media to promote traditional values and generate millions of page views each day. We\'re glad you\'ve joined us.</p>';
         }
-        
+
         if(!empty($supportcontact) && current_user_can('manage_options')) {
             if(!empty($supportname) && !empty($supportemail)) {
                 $message .= '<p>Do you need help? Contact your developer, ' . $supportname . ', via email <a href="mailto:' . $supportemail . '">HERE</a>.</p>';
@@ -816,9 +817,9 @@ function wpdev_tools_welcome_widget() {
                 $message .= '<p>Do you need help? You can access Liberty Alliance\'s support site <a href="//help.libertyalliance.com" target="_blank">HERE</a>. The password to login is <strong>HelpLiberty</strong>.</p>';
             }
         }
-        
+
         $message .= '<p>Have a wonderful day!</p>';
-        
+
         echo $message;
     }
 }

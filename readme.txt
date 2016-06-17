@@ -25,6 +25,9 @@ Offers a ton of site enhancements and options.
 == Screenshots ==
 
 == Changelog ==
+= 2.3.2
+* Add GitHub access token.
+
 = 2.3.1
 * Update Google jQuery Version to WP 4.5 Version
 
