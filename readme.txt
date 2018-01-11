@@ -25,6 +25,10 @@ Offers a ton of site enhancements and options.
 == Screenshots ==
 
 == Changelog ==
+
+= 2.3.3
+* PHP7 compatibility fix.
+
 = 2.3.2
 * Add GitHub access token.
 

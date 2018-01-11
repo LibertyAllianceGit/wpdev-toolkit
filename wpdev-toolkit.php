@@ -3,7 +3,7 @@
 Plugin Name: WP Developers Toolkit
 Plugin URI: http://wpdevelopers.com
 Description: Load WordPress faster with special, optimized settings and improve the backend of WordPress.
-Version: 2.3.2
+Version: 2.3.3
 Author: Tyler Johnson
 Author URI: http://tylerjohnsondesign.com/
 Copyright: Tyler Johnson
@@ -15,11 +15,10 @@ Text Domain: wpdevrock
  * Plugin Updates
  */
 require 'plugin-update-checker-3.0/plugin-update-checker.php';
-$wpdevClassName = PucFactory::getLatestClassVersion('PucGitHubChecker');
-$wpdevUpdateChecker = new $wpdevClassName(
-    'https://github.com/LibertyAllianceGit/wpdev-toolkit',
-    __FILE__,
-    'master'
+$wpdevUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
+	'https://github.com/LibertyAllianceGit/wpdev-toolkit',
+	__FILE__,
+	'wpdev-toolkit'
 );
 $wpdevUpdateChecker->setAccessToken('4921ce230f2bd252dd1fafc7afeac812ddf091de');
 
