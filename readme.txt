@@ -26,6 +26,9 @@ Offers a ton of site enhancements and options.
 
 == Changelog ==
 
+= 2.3.4
+* PHP7 compatibility fix.
+
 = 2.3.3
 * PHP7 compatibility fix.
 
